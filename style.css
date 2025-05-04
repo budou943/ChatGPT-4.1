@@ -1,0 +1,261 @@
+body {
+  margin:0;padding:0;
+  font-family:'Meiryo', 'Noto Sans JP', sans-serif;
+  background:#f6f8fb;
+  color:#223;
+}
+/* サイドバー */
+#sidebarOverlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(30,50,80,0.13);
+  z-index:100;
+}
+#sidebar {
+  position:fixed; left:0; top:0; bottom:0; width:82vw; max-width:340px;
+  background:#fff; box-shadow:2px 0 14px #0001;
+  z-index:200; transform:translateX(-110%); transition:.18s;
+  display:flex; flex-direction:column; min-height:0;
+}
+#sidebar.open { transform:translateX(0); }
+#sidebar header { display:flex;align-items:center;justify-content:space-between; font-weight:bold;background:#306cdb;color:#fff; padding:.7em 1em; font-size:1.08em;}
+#sidebar header button { background:none;border:none;color:#fff;font-size:1.28em;cursor:pointer;}
+.sidebar-content {flex:1;overflow-y:auto;padding:1em;}
+.apikeystyle label{font-size:.96em;font-weight:bold;}
+.apikeystyle input[type=password]{width:100%;padding:6px;margin-top:2px;border-radius:4px;border:1px solid #bbb;}
+
+#sessionList{margin:9px 0 0 0;}
+.sessrow{
+  display:flex;align-items:center;gap:.5em;font-size:1em;cursor:pointer;
+  border-radius:7px;padding:4px 7px;margin-bottom:1.5px;
+  background:transparent;transition:.13s;
+}
+.sessrow.selected{background:#ddecff;}
+.sessname{flex:1;white-space:nowrap;text-overflow:ellipsis;overflow-x:hidden;}
+.sessrow button{border:none;background:transparent;color:#d44;font-size:1.05em;}
+.sessrow button:active{color:#a22;}
+#newSessionBtn{
+  width:100%;background:#306cdb;color:#fff;border:none;padding:7px 0;font-size:1em;
+  border-radius:6px;margin-top:.3em;cursor:pointer;}
+#newSessionBtn:active{background:#174fa0;}
+.apikeystyle small{color:#778;}
+.sidebar-content {display:flex;flex-direction:column;gap:1.2em;}
+
+/* メインUI */
+.navbar{
+  background:#306cdb; color:#fff; padding:.52em 1.1em; font-size:1.18em;
+  font-weight:600; position:sticky;top:0;z-index:5; display:flex;align-items:center;
+  height:51px;
+}
+#openSidebarBtn {
+  background:none; border:none; color:#fff; margin-right:.7em; font-size:1.38em; cursor:pointer;
+}
+#appContainer{
+  max-width:540px;
+  margin:15px auto 0 auto;
+  padding-left: 8px; /* チャットエリアの左端調整 */
+  padding-right: 8px; /* チャットエリアの右端調整 */
+}
+#chat{
+  min-height:330px;
+  /* padding-bottom を Input Bar の高さに合わせて調整 */
+  padding-bottom: 140px; /* Input Bar の高さやパディングを考慮 */
+}
+.msg{
+  word-break:break-word;line-height:1.68;
+  margin-bottom:7px;
+  /* メッセージ幅を調整し、左右のマージンを自動に */
+  max-width: 80%; /* メッセージの最大幅 */
+  padding:7px 13px;
+  border-radius:13px; /* 共通の角丸 */
+  display:inline-block;
+}
+.msg.user{
+  text-align:right;
+  color:#306cdb;
+  background:#e5efff;
+  margin-left: auto; /* 右寄せ */
+  margin-right: 0;
+  border-radius: 13px 12px 2px 9px; /* 右上の角を調整 */
+}
+.msg.assistant{
+  text-align:left;
+  color:#237515;
+  background:#e7fbe2;
+  margin-left: 0;
+  margin-right: auto;
+  border-radius: 13px 10px 14px 1.5px;
+  position: relative;
+  overflow: visible;        /* モデル名が吹き出し上部に表示できるように */
+  margin-top: 2.2em;        /* モデル名用スペース */
+}
+/* アシスタントメッセージのモデル名表示 */
+.msg.assistant .model-name {
+    position: absolute;
+    top: -1.4em;
+    left: 0;
+    font-size: 0.75em;
+    color: #888;
+    background: #fff;
+    padding: 0 7px 0 4px;
+    border-radius: 8px;
+    z-index: 1;
+    font-family: 'Menlo', 'Consolas', monospace;
+    pointer-events: none;
+}
+
+.msg.assistant.thinking{
+  color:#888;background:transparent;margin:0;padding:0;
+  max-width: 100%;
+}
+
+.inputbar{
+  box-sizing:border-box;
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  background:#fff;
+  border-top:1.5px solid #d4e0f0;
+  padding: 8px;
+  max-width: 540px;
+  width: 100%;
+  margin: 0 auto;
+  flex-wrap: nowrap;
+}
+#modelSelect{
+  font-size: 17px; /* iOSズーム防止 */
+  background:#deebfd;color:#305091;border:none;
+  border-radius:6px;padding:5px;margin-right:2px;outline:1px dotted #aac8ff;
+  flex-shrink: 0;
+}
+#msgInput {
+  width: 100%;
+  font-size: 17px;
+  line-height: 1.6;
+  min-height: 1.6em;
+  max-height: 4.8em;
+  resize: none;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+#sendBtn{
+  background:#306cdb;color:#fff;font-weight:600;border:none;
+  border-radius:6px;font-size: 17px; /* iOSズーム防止 */
+  padding:8px 18px;min-width:58px;cursor:pointer;
+  flex-shrink: 0;
+}
+#sendBtn:active{background:#143470;}
+
+/* スマホ調整 */
+@media (max-width:700px){
+  #sidebar{width:94vw;max-width:99vw;}
+  #appContainer{
+      max-width:99vw;
+      padding-left: 1.5vw;
+      padding-right: 1.5vw;
+  }
+  .navbar{font-size:1.06em;}
+  .inputbar{
+      max-width: 99vw;
+      padding: 7px 1.5vw;
+  }
+  #chat{padding-bottom:140px;}
+}
+@media (max-width:480px){
+  html{font-size:15.3px;}
+  #msgInput {font-size:17px;}
+}
+::selection{background:#bdddff;}
+
+.inputbar-container {
+  background: #fff;
+  padding: 14px 10px 10px 10px;
+  border-radius: 13px;
+  box-shadow: 0 2px 8px #0001;
+  max-width: 540px;
+  width: 100%;
+  margin: 0 auto;
+  position: fixed;
+  left: 0; right: 0; bottom: 0; z-index: 20;
+}
+
+.model-select-row {
+  margin-bottom: 3px;
+}
+
+.model-select-row select {
+  font-size: 17px;
+  background: #deebfd;
+  color: #305091;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 10px;
+  margin-left: 2px;
+  outline: 1px dotted #aac8ff;
+}
+
+.inputbar {
+  display: flex;
+  align-items: stretch;
+  gap: 7px;
+  border-top: none;
+  background: transparent;
+  box-shadow: none;
+  position: static;
+  max-width: unset;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+#msgInput, #sendBtn {
+  font-size: 17px; /* iOSズーム防止のため16px以上厳守 */
+}
+#msgInput {
+  flex: 1;
+  padding: .7em 1em;
+  border-radius: 8px;
+  border: 1px solid #b0bdd2;
+  outline: none;
+  min-width: 0;
+}
+#sendBtn {
+  background: #306cdb;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  font-size: 17px;
+  padding: 8px 18px;
+  min-width: 58px;
+  cursor: pointer;
+}
+#sendBtn:active{ background: #143470; }
+
+/* もともと.fixedのものは不要 */
+.inputbar:focus-within {box-shadow:0 0 0 2px #dce1f8;}
+@media (max-width:700px){
+  .inputbar-container {
+      max-width: 99vw;
+      padding-left: 1.5vw; padding-right: 1.5vw;
+  }
+}
+input[type="text"], input[type="password"] {
+  font-size: 16px;
+}
+
+#pasteApiKeyBtn {
+  background: #deebfd;
+  border: 1px solid #a7bddd;
+  border-radius: 5px;
+  font-size: 1.15em;
+  cursor: pointer;
+  padding: 0 10px;
+  line-height: 1.7;
+  color: #305091;
+  transition: background 0.1s;
+}
+#pasteApiKeyBtn:active { background: #c5defd; }

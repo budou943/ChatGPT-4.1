@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>GPT-4.1 Chat</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #appContainer {
+      height: var(--vh, 100vh);
+      display: flex;
+      flex-direction: column;
+    }
+
+    #chat {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .inputbar-container {
+      flex-shrink: 0;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      font-size: 16px;
+    }
+  </style>
+  <!-- Markdown表示用ライブラリ＆サニタイズ -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+</head>
+<body>
+  <div class="navbar">
+    <button id="openSidebarBtn" aria-label="メニュー">☰</button>
+    GPT-4.1 Chat
+  </div>
+
+  <div id="appContainer">
+    <div id="chat"></div>
+    <div class="inputbar-container">
+      <div class="model-select-row">
+  <label for="modelSelect">モデル:</label>
+  <select id="modelSelect">
+    <optgroup label="GPT-4.1">
+      <option value="gpt-4.1">GPT-4.1 ⏱️✨✨✨💰💰💰</option>
+      <option value="gpt-4.1-mini">4.1 Mini ⏱️⏱️✨✨💰💰</option>
+      <option value="gpt-4.1-nano">4.1 Nano ⏱️⏱️⏱️✨💰</option>
+    </optgroup>
+    <optgroup label="GPT-4o">
+      <option value="gpt-4o">GPT-4o ⏱️✨✨💰💰💰</option>
+      <option value="gpt-4o-mini">4o Mini ⏱️⏱️✨💰</option>
+    </optgroup>
+    <optgroup label="oシリーズ">
+      <option value="o1">o1 ⏱️✨✨✨💰💰💰💰</option>
+      <option value="o3">o3 <br>⏱️⏱️✨✨✨💰💰💰</option>
+      <option value="o4-mini">o4-mini ⏱️⏱️✨✨💰💰</option>
+    </optgroup>
+  </select>
+</div>
+      <form class="inputbar" id="chatForm" autocomplete="off">
+        <textarea id="msgInput" placeholder="メッセージを入力..." required autocomplete="off" rows="1"></textarea>
+        <button id="sendBtn" type="submit">送信</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- サイドバー＆オーバーレイ -->
+  <div id="sidebarOverlay"></div>
+  <aside id="sidebar" tabindex="-1">
+    <header>
+      <span>メニュー</span>
+      <button id="closeSidebarBtn" aria-label="閉じる">✖</button>
+    </header>
+    <div class="sidebar-content">
+      <div class="apikeystyle">
+  <label for="apikeyInput">OpenAI APIキー</label>
+  <div style="display:flex;gap:6px;">
+    <input type="password" id="apikeyInput" placeholder="sk-…" inputmode="text" autocapitalize="off" autocomplete="off">
+    <button type="button" id="pasteApiKeyBtn" title="クリップボードから貼り付け">📋</button>
+  </div>
+  <small>APIキーはこの端末内にのみ保存されます。</small>
+</div>
+      <div>
+        <div style="font-weight:500;margin-bottom:.2em;">セッション履歴</div>
+        <div id="sessionList"></div>
+        <button id="newSessionBtn" type="button">＋ 新しいセッション</button>
+      </div>
+      
+    </div>
+  </aside>
+
+  <script>
+    function setVh() {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+
+    window.addEventListener('resize', setVh);
+    window.addEventListener('orientationchange', setVh);
+    window.addEventListener('load', setVh);
+    setVh();
+  </script>
+  <script>
+document.getElementById("pasteApiKeyBtn").onclick = async function() {
+  try {
+    const text = await navigator.clipboard.readText();
+    if (!text) {
+      alert("クリップボードにテキストがありません。");
+      return;
+    }
+    const input = document.getElementById("apikeyInput");
+    input.value = text.trim();
+    input.dispatchEvent(new Event('input', {bubbles:true}));
+  } catch (e) {
+    alert("クリップボードの読み取りに失敗しました。権限を許可してください。\n\n" + e);
+  }
+};
+</script>
+  <script src="script.js"></script>
+</body>
+</html>
